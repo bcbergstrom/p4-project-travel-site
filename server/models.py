@@ -21,12 +21,12 @@ class Vacation(db.Model, SerializerMixin):
     __tablename__ = 'vacations'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'))
-    trip_id = db.Column(db.Integer, db.ForeignKey('trip.id'))
-    user = relationship('User', back_populates = 'vacations', cascade ="all, delete-orphan")
-    activity = relationship('Activity', back_populates = 'vacations', cascade ="all, delete-orphan")
-    trip = relationship('Trip', back_populates= 'vacations', cascade ="all, delete-orphan")
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))
+    trip_id = db.Column(db.Integer, db.ForeignKey('trips.id'))
+    user = relationship('User', back_populates = 'vacations', cascade ="all")
+    activity = relationship('Activity', back_populates = 'vacations', cascade ="all")
+    trip = relationship('Trip', back_populates= 'vacations', cascade ="all")
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -51,7 +51,7 @@ class Luggage(db.Model, SerializerMixin):
     style_accessories = db.Column(db.Boolean)
     is_summer = db.Column(db.Boolean)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = relationship('User', back_populates = 'luggages')
 
 class Trip(db.Model, SerializerMixin):
@@ -64,4 +64,4 @@ class Trip(db.Model, SerializerMixin):
     price = db.Column(db.Float)
     is_flying = db.Column(db.Boolean)
     weight_limit = db.Column(db.Integer)
-
+    vacations = relationship('Vacation', back_populates = 'trip', cascade ="all, delete-orphan")
