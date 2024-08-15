@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource, Api
 from config import app, db, api
-
+from models import Luggage, User, Trip, Activity, Luggage, Vacation
 class All_Luggage(Resource):
     def get(self, id):
         ll = Luggage.query.all()
@@ -28,7 +28,7 @@ class Editing(Resource):
             raise ValueError('This luggage does not exist')
     def patch(self,id):
         ages = Luggage.query.filter(Luggage.id == id).first()
-        if ages:
+        if ages is not None:
             try:
                 data = request.get_json()
                 for key in data:
@@ -37,13 +37,13 @@ class Editing(Resource):
                 db.session.commit()
                 return ages.to_dict(),202
             except Exception as e:
-                raise ValueError(
+                raise ValueError({
                     'Error' : 'Validation errors'
-                ), 400
+                }), 400
         else:
-            raise ValueError{
+            raise ValueError({
                 'Error' : 'Luggage not found '
-            }
+            })
     def delete(self, id):
         age = Luggage.query.filter(Luggage.id == id).first()
         if age:
@@ -51,9 +51,9 @@ class Editing(Resource):
             db.session.commit()
             return {}, 204
         else:
-            raise ValueError(
+            raise ValueError({
                 'Error': 'Could not find luggage'
-            ),404
+            }),404
 api.add_resource(All_Luggage,'/Luggages')
 api.add_resource(Editing,'/ChangeLuggages/<int:id>')
 
@@ -107,9 +107,9 @@ class One_Activity(Resource):
             db.session.commit()
             return {}, 204
         else:
-            raise ValueError(
+            raise ValueError({
                 'Error': 'Could not find Activity'
-            ),404
+            }),404
 api.add_resource(One_Activity,'/Activity/<int:id>')
 
 if __name__ == '__main__':
