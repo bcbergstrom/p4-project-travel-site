@@ -1,4 +1,4 @@
-from random import randint, choice
+from random import randint, choice, uniform
 from config import app
 from faker import Faker
 from models import db, User, Trip, Activity, Luggage, Vacation
@@ -8,9 +8,9 @@ fake = Faker()
 def create_users():
     for _ in range(10):
         user = User(
-            name = fake.name(),
-            budget = randint(100, 500),
-            a_o = choice([True, False]),
+            username = fake.name(),
+            budget = randint(100, 350),
+            is_alone = choice([True, False]),
             password = fake.password(),
             email = fake.email()
         )
@@ -22,9 +22,9 @@ def create_trips():
             location = fake.city(),
             season = choice(["summer", "fall", "winter", "spring"]),
             is_winter = choice([True, False]),
-            price = randint(100, 500),
+            price = uniform(100, 500),
             is_flying = choice([True, False]),
-            weight_limit = randint(100, 500)
+            weight_limit = randint(25, 50)
         )
         db.session.add(trip)
         
@@ -32,8 +32,10 @@ def create_activities():
     for _ in range(10):
         activity = Activity(
             name = fake.catch_phrase(),
-            desc = fake.text()
-        )
+            desc = fake.text(),
+            budget= randint(1, 350),
+            adv_scale = randint(1, 10),
+            is_alone = choice([True, False]))
         db.session.add(activity)
         
 def create_luggages():
@@ -42,7 +44,11 @@ def create_luggages():
             style_shirt = choice([True, False]),
             style_pants = choice([True, False]),
             style_accessories = choice([True, False]),
-            is_summer = choice([True, False])
+            is_summer = choice([True, False]),
+            pants = randint(1, 10),
+            shirts = randint(1, 10),
+            other_clothes = randint(1, 10),
+            user_id = randint(1, 10)
         )
         db.session.add(luggages)
 
