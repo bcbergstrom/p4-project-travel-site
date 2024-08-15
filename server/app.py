@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, make_response
 from flask_restful import Resource, Api
 from config import app, db, api
 from models import Luggage, User, Trip, Activity, Luggage, Vacation
@@ -18,14 +18,14 @@ class All_Luggage(Resource):
             db.session.commit()
             return lugg.to_dict(), 200
         except Exception as e:
-            raise ValueError('Pack more clothes')
+            return make_response('Pack more clothes'),404
 class Editing(Resource):
     def get(self, id):
         lug = Luggage.query.filter(Luggage.id == id).first()
         if lug:
             return lug.to_dict(), 200
         else:
-            raise ValueError('This luggage does not exist')
+            return make_response('This luggage does not exist')
     def patch(self,id):
         ages = Luggage.query.filter(Luggage.id == id).first()
         if ages is not None:
@@ -35,23 +35,23 @@ class Editing(Resource):
                     setattr(ages, key, data[key])
                 db.session.add(ages)
                 db.session.commit()
-                return ages.to_dict(),202
+                return ages.to_dict(),200
             except Exception as e:
-                raise ValueError({
+                return make_response({
                     'Error' : 'Validation errors'
-                }), 400
+                }), 404
         else:
-            raise ValueError({
+            return make_response({
                 'Error' : 'Luggage not found '
-            })
+            }),404
     def delete(self, id):
         age = Luggage.query.filter(Luggage.id == id).first()
         if age:
             db.session.delete(age)
             db.session.commit()
-            return {}, 204
+            return {}, 200
         else:
-            raise ValueError({
+            return make_response({
                 'Error': 'Could not find luggage'
             }),404
 api.add_resource(All_Luggage,'/Luggages')
@@ -77,15 +77,15 @@ class All_Activity(Resource):
             #check if its already in our database
             return vity.to_dict(), 200
         except Exception as e:
-            raise ValueError('This activity is already present')
+            return make_response('This activity is already present'), 404
 api.add_resource(All_Activity,'/Activity')
 class One_Activity(Resource):
     def get(self, id):
         act = Activity.query.filter(Activity.id == id).first()
         if act:
-            return act.to_dict()
+            return act.to_dict(),200
         else:
-            raise ValueError('This activity does not exist')
+            return make_response('This activity does not exist'),400
     def patch(self, id):
         one = Activity.query.filter(Activity.id == id).first()
         if one:
@@ -97,9 +97,9 @@ class One_Activity(Resource):
                 db.session.commit()
                 return one.to_dict(),202
             except Exception as e:
-                raise ValueError('You can not change this aspect')
+                return make_response('You can not change this aspect'), 404
         else:
-            raise ValueError('This activity does not exist')
+            return make_response('This activity does not exist'),404
     def delete(self, id):
         vity = Activity.query.filter(Activity.id == id).first()
         if vity:
@@ -107,7 +107,7 @@ class One_Activity(Resource):
             db.session.commit()
             return {}, 204
         else:
-            raise ValueError({
+            return make_response({
                 'Error': 'Could not find Activity'
             }),404
 api.add_resource(One_Activity,'/Activity/<int:id>')
