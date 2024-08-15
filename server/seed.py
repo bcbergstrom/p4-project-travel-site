@@ -20,7 +20,7 @@ def create_trips():
     for _ in range(10):
         trip = Trip(
             location = fake.city(),
-            season = choice(["summer", "autumn", "winter", "spring"]),
+            season = choice(["summer", "fall", "winter", "spring"]),
             is_winter = choice([True, False]),
             price = randint(100, 500),
             is_flying = choice([True, False]),

@@ -35,13 +35,17 @@ class All_Luggage(Resource):
             raise ValueError('New bag as your carry on')
 api.add_resource(All_Luggage,'/Luggages')
 
-class One_Lugg(Resource):
-    def get(self, id):
-        lug = Luggage.query.filter(Luggage.id == id).first()
-        if lug:
-            return lug.to_dict(), 200
+class Editing(Resource):
+    def patch(self, id):
+        
 
-api.add_resource(All_Signups,'/signups')
+# class One_Lugg(Resource):
+#     def get(self, id):
+#         lug = Luggage.query.filter(Luggage.id == id).first()
+#         if lug:
+#             return lug.to_dict(), 200
+
+# api.add_resource(One_Lugg,'/One_thing')
 
 
 if __name__ == '__main__':

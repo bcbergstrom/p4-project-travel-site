@@ -94,19 +94,19 @@ class Luggage(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = relationship('User', back_populates = 'luggages')
 
-    @validates
+    @validates('other_clothes')
     def check_others(self,key,value):
         if type(value) is int:
             return value
         else:
             raise ValueError('Not enough clothes')
-    @validates
+    @validates('shirts')
     def check_shirts(self,key,value):
         if type(value) is int:
             return value
         else:
             raise ValueError('You need more shirts')
-    @validates
+    @validates('pants')
     def check_pants(self,key,value):
         if type(value) is int:
             return value
