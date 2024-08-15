@@ -17,14 +17,14 @@ class Activity(db.Model, SerializerMixin):
 
     @validates('budget')
     def check_bank(self, key, value):
-        if type(value) is str and 1=> value >= 350:
+        if type(value) is str and 1 <= value <= 350:
             return value
         else:
             raise ValueError('Get more money brokey')
 
     @validates('adv_scale')
     def check_adv(self, key, value):
-        if type(value) is str and 1=> value <= 10:####
+        if type(value) is str and 1 <= value <= 10:####
             return value
         else:
             raise ValueError('Input a number between 1-10')
@@ -62,7 +62,7 @@ class User(db.Model, SerializerMixin):
 
     @validates('password')
     def check_password(self,key, value):
-        if type(value) is str and 1 => value <= 8: ####
+        if type(value) is str and 1 <= value <= 8: ####
             return value
         else:
             raise ValueError('Make your passowrd 8 letters')
@@ -126,7 +126,7 @@ class Trip(db.Model, SerializerMixin):
     
     @validates('weight_limit')
     def check_limit(self, key, value):
-        if type(value) is int and 25<=value=<50:
+        if type(value) is int and 25<=value<=50:
             return value
         else:
             raise ValueError('You packed too much!')
@@ -145,7 +145,7 @@ class Trip(db.Model, SerializerMixin):
     @validates('season')
     def check_season(self, key, value):
         valid_season=["Summer","Spring", "Winter", "Fall"]
-        if type(value) is str and in valid_season:
+        if type(value) is str and value in valid_season:
             return value
-        elif letter not in valid_season:
+        else:
                 raise ValueError("Not a season on earth")
