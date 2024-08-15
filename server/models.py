@@ -126,7 +126,7 @@ class Trip(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     location  = db.Column(db.String, nullable=False)
     season = db.Column(db.String, nullable=False)
-    is_winter = db.Column(db.Boolean)
+    is_winter = db.Column(db.Boolean )
     price = db.Column(db.Float, nullable=False)
     is_flying = db.Column(db.Boolean)
     weight_limit = db.Column(db.Integer, nullable=False)
