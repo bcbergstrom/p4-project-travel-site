@@ -36,8 +36,8 @@ class All_Luggage(Resource):
 api.add_resource(All_Luggage,'/Luggages')
 
 class Editing(Resource):
-    def patch(self, id):
-        
+    def patch(self,id):
+
 
 # class One_Lugg(Resource):
 #     def get(self, id):
