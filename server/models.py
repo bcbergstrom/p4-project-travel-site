@@ -5,31 +5,26 @@ from config import db
 
 class Activity(db.Model, SerializerMixin):
     __tablename__ = 'activities'
-    
     id = db.Column(db.Integer, primary_key=True)
     budget = db.Column(db.Integer, nullable=False)
     adv_scale = db.Column(db.Integer , nullable=False)
     is_alone = db.Column(db.Boolean, nullable=False)
     name = db.Column(db.String, nullable=False)
     desc = db.Column(db.String, nullable=False)
-    
     serialize_rules = ('-vacations.activity',)    
     vacations = db.relationship('Vacation', back_populates='activity', cascade ="all, delete-orphan")
-
     @validates('budget')
     def check_bank(self, key, value):
         if type(value) is int and 1 <= value <= 350:
             return value
         else:
             raise ValueError('Get more money brokey')
-
     @validates('adv_scale')
     def check_adv(self, key, value):
         if type(value) is int and 1 <= value <= 10:####
             return value
         else:
             raise ValueError('Input a number between 1-10')
-
     @validates('name', 'desc')
     def check_two(self, key, value):
         if type(value) is str:
@@ -37,9 +32,9 @@ class Activity(db.Model, SerializerMixin):
         else:
             raise ValueError('Oops, something was spelled wrong or the wrong type was inputed')
 
+
 class Vacation(db.Model, SerializerMixin):
     __tablename__ = 'vacations'
-
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))
@@ -47,30 +42,30 @@ class Vacation(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates = 'vacations', cascade ="all")
     activity = db.relationship('Activity', back_populates = 'vacations', cascade ="all")
     trip = db.relationship('Trip', back_populates= 'vacations', cascade ="all")
-    serialize_rules = ('-user.vacations', '-activity.vacations', '-trip.vacations')    
+    serialize_rules = ('-user.vacations', '-activity.vacations', '-trip.vacations')  
+
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String , nullable=False)
     budget = db.Column(db.Float, nullable=False)
     is_alone = db.Column(db.Boolean)
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique = True)
-
-
     serialize_rules = ('-luggages.user', '-vacations.user' )
-    
-    
     luggages = db.relationship('Luggage', back_populates = 'user', cascade ="all, delete-orphan")
     vacations = db.relationship('Vacation', back_populates = 'user', cascade ="all, delete-orphan")
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+    def authenticate(self,password):
+        return bcrypt.check_password_hash(self._password_hash,password.encode('utf-8'))
 
-    @validates('password')
-    def check_password(self,key, value):
-        if type(value) is str and 8 <= len(value) <= 16: ####
-            return value
-        else:
-            raise ValueError('Make your passowrd 8 letters')
     @validates('username')
     def check_username(self, key, value):
         if type(value) is str:
@@ -83,10 +78,22 @@ class User(db.Model, SerializerMixin):
             return value 
         else:
             raise ValueError('You are too broke :(')
+    @validates('password')
+    def check_password(self,key, value):
+        if type(value) is str and 8 <= len(value) <= 16: ####
+            return value
+        else:
+            raise ValueError('Make your passowrd 8 letters')
+    @validates('email')
+    def validate_email(self,key,value):
+        if type(value) is str and "@" in value and "." in value:
+            return value
+        else:
+            raise ValueError("Not valid email")
+
 
 class Luggage(db.Model, SerializerMixin):
     __tablename__ = 'luggages'
-
     id = db.Column(db.Integer, primary_key=True)
     style_shirt = db.Column(db.Boolean, nullable=False)
     style_pants = db.Column(db.Boolean, nullable=False)
@@ -95,12 +102,9 @@ class Luggage(db.Model, SerializerMixin):
     pants = db.Column(db.Integer, nullable=False)
     shirts = db.Column(db.Integer, nullable=False)  
     other_clothes = db.Column(db.Integer, nullable=False)
-    
     serialize_rules = ('-user.luggages',)
-
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', back_populates = 'luggages')
-
     @validates('other_clothes')
     def check_others(self,key,value):
         if type(value) is int:
@@ -120,9 +124,9 @@ class Luggage(db.Model, SerializerMixin):
         else:
             raise ValueError('You didnt pack the right amount')
 
+
 class Trip(db.Model, SerializerMixin):
     __tablename__ = 'trips'
-
     id = db.Column(db.Integer, primary_key=True)
     location  = db.Column(db.String, nullable=False)
     season = db.Column(db.String, nullable=False)
@@ -132,7 +136,6 @@ class Trip(db.Model, SerializerMixin):
     weight_limit = db.Column(db.Integer, nullable=False)
     serialize_rules = ('-vacations.trip',)
     vacations = db.relationship('Vacation', back_populates = 'trip', cascade ="all, delete-orphan")
-    
     @validates('weight_limit')
     def check_limit(self, key, value):
         if type(value) is int and 25<=value<=50:
