@@ -3,7 +3,7 @@ from flask_restful import Resource, Api
 from config import app, db, api
 from models import Luggage, User, Trip, Activity, Luggage, Vacation
 class All_Luggage(Resource):
-    def get(self, id):
+    def get(self):
         ll = Luggage.query.all()
         return [lug.to_dict() for lug in ll],200
     def post(self):
@@ -59,7 +59,7 @@ api.add_resource(Editing,'/ChangeLuggages/<int:id>')
 
 
 class All_Activity(Resource):
-    def get(self, id):
+    def get(self):
         aa = Activity.query.all()
         return [act.to_dict() for act in aa],200
     def post(self):
