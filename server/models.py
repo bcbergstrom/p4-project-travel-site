@@ -17,7 +17,7 @@ class Activity(db.Model, SerializerMixin):
 
     @validates('budget')
     def check_bank(self, key, value):
-        if 0<= value => 350 and type(value) is str:
+        if type(value) is str and 1=> value >= 350:
             return value
         else:
             raise ValueError('Get more money brokey')
