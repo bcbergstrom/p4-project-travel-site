@@ -1,3 +1,4 @@
+from flask_bcrypt import Bcrypt
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -54,7 +55,7 @@ class User(db.Model, SerializerMixin):
     is_alone = db.Column(db.Boolean)
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique = True)
-    serialize_rules = ('-luggages.user', '-vacations.user' )
+    serialize_rules = ('-luggages.user', '-vacations.user',)
     luggages = db.relationship('Luggage', back_populates = 'user', cascade ="all, delete-orphan")
     vacations = db.relationship('Vacation', back_populates = 'user', cascade ="all, delete-orphan")
     @hybrid_property
@@ -62,10 +63,10 @@ class User(db.Model, SerializerMixin):
         return self._password_hash
     @password_hash.setter
     def password_hash(self, password):
-        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        password_hash = Bcrypt.generate_password_hash(password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
     def authenticate(self,password):
-        return bcrypt.check_password_hash(self._password_hash,password.encode('utf-8'))
+        return Bcrypt.check_password_hash(self._password_hash,password.encode('utf-8'))
 
     @validates('username')
     def check_username(self, key, value):

@@ -5,7 +5,7 @@ from models import Luggage, User, Trip, Activity, Luggage, Vacation
 class All_Luggage(Resource):
     def get(self):
         ll = Luggage.query.all()
-        return [lug.to_dict() for lug in ll],200
+        return [lug.to_dict(rules=('-user',)) for lug in ll],200
     def post(self):
         try:
             data = request.get_json()
@@ -16,18 +16,19 @@ class All_Luggage(Resource):
                 is_summer = data['is_summer'],
                 pants = data['pants'], 
                 shirts = data['shirts'], 
-                other_clothes = data['other_clothes']
-            )
+                other_clothes = data['other_clothes'],
+                user_id=data['user_id']
+                )
             db.session.add(lugg)
             db.session.commit()
-            return lugg.to_dict(), 200
+            return lugg.to_dict(rules=('-user',)), 200
         except Exception as e:
-            return make_response('Pack more clothes'),404
+            return make_response({'error': str(e)},404)
 class Editing(Resource):
     def get(self, id):
         lug = Luggage.query.filter(Luggage.id == id).first()
         if lug:
-            return lug.to_dict(), 200
+            return lug.to_dict(rules=('-user.vacations',)), 200
         else:
             return make_response('This luggage does not exist')
     def patch(self,id):
@@ -36,18 +37,19 @@ class Editing(Resource):
             try:
                 data = request.get_json()
                 for key in data:
+                    print("key",key)
                     setattr(ages, key, data[key])
                 db.session.add(ages)
                 db.session.commit()
-                return ages.to_dict(),200
+                return ages.to_dict(rules=('-user.vacations',)),200
             except Exception as e:
                 return make_response({
-                    'Error' : 'Validation errors'
-                }), 404
+                    'Error' : str(e)
+                },404)
         else:
             return make_response({
                 'Error' : 'Luggage not found '
-            }),404
+            },404)
     def delete(self, id):
         age = Luggage.query.filter(Luggage.id == id).first()
         if age:
@@ -57,15 +59,15 @@ class Editing(Resource):
         else:
             return make_response({
                 'Error': 'Could not find luggage'
-            }),404
-api.add_resource(All_Luggage,'/Luggages')
-api.add_resource(Editing,'/ChangeLuggages/<int:id>')
+            },404)
+api.add_resource(All_Luggage,'/luggages')
+api.add_resource(Editing,'/luggages/<int:id>')
 
 
 class All_Activity(Resource):
     def get(self):
         aa = Activity.query.all()
-        return [act.to_dict() for act in aa],200
+        return [act.to_dict(rules=('-vacations',)) for act in aa],200
     def post(self):
         try:
             data = request.get_json()
@@ -79,14 +81,14 @@ class All_Activity(Resource):
             db.session.add(vity)
             db.session.commit()
             #check if its already in our database
-            return vity.to_dict(), 200
+            return vity.to_dict(rules=('-vacations',)), 200
         except Exception as e:
-            return make_response('This activity is already present'), 404
+            return make_response({'error': str(e)},404)
 class One_Activity(Resource):
     def get(self, id):
         act = Activity.query.filter(Activity.id == id).first()
         if act:
-            return act.to_dict(),200
+            return act.to_dict(rules=('-vacations',)),200
         else:
             return make_response('This activity does not exist'),400
     def patch(self, id):
@@ -98,9 +100,9 @@ class One_Activity(Resource):
                     setattr(one,key,data[key])
                 db.session.add(one)
                 db.session.commit()
-                return one.to_dict(),202
+                return one.to_dict(rules=('-vacations',)),202
             except Exception as e:
-                return make_response('You can not change this aspect'), 404
+                return make_response({'error': str(e)}), 404
         else:
             return make_response('This activity does not exist'),404
     def delete(self, id):
@@ -112,15 +114,15 @@ class One_Activity(Resource):
         else:
             return make_response({
                 'Error': 'Could not find Activity'
-            }),404
-api.add_resource(All_Activity,'/Activity')
-api.add_resource(One_Activity,'/Activity/<int:id>')
+            },404)
+api.add_resource(All_Activity,'/activity')
+api.add_resource(One_Activity,'/activity/<int:id>')
 
 
 class All_User(Resource):
     def get(self):
         au = User.query.all()
-        return [us.to_dict() for us in au],200
+        return [us.to_dict(rules=('-vacations',)) for us in au],200
     def post(self):
         try:
             data = request.get_json()
@@ -128,22 +130,21 @@ class All_User(Resource):
                 username = data['username'], 
                 budget = data['budget'], 
                 is_alone = data['is_alone'], 
-                passowrd = data['passowrd'],
+                password = data['password'],
                 email = data['email']
             )
             db.session.add(sure)
             db.session.commit()
-            #check if its already in our database
-            return sure.to_dict(), 200
+            return sure.to_dict('-vacations',),200
         except Exception as e:
-            return make_response('This User is already present'), 404
+            return make_response({'errors': str(e)},404)
 class One_User(Resource):
     def get(self, id):
         act = User.query.filter(User.id == id).first()
         if act:
-            return act.to_dict(),200
+            return act.to_dict(rules=('-vacations',)),200
         else:
-            return make_response('This User does not exist'),400
+            return make_response({'error':'This user does not exist'},400)
     def patch(self, id):
         one = User.query.filter(User.id == id).first()
         if one:
@@ -153,11 +154,11 @@ class One_User(Resource):
                     setattr(one,key,data[key])
                 db.session.add(one)
                 db.session.commit()
-                return one.to_dict(),202
+                return one.to_dict(rules=('-vacations',)),202
             except Exception as e:
-                return make_response('You can not change this aspect'), 404
+                return make_response({"error": str(e)},404) 
         else:
-            return make_response('This User does not exist'),404
+            return make_response('This user does not exist',404)
     def delete(self, id):
         one = User.query.filter(User.id == id).first()
         if one:
@@ -166,16 +167,16 @@ class One_User(Resource):
             return {}, 204
         else:
             return make_response({
-                'Error': 'Could not find User'
-            }),404
-api.add_resource(All_User,'/User')
-api.add_resource(One_User,'/User/<int:id>')
+                'error': 'Could not find user'
+            },404)
+api.add_resource(All_User,'/user')
+api.add_resource(One_User,'/user/<int:id>')
 
 
 class All_Trip(Resource):
     def get(self):
         at = Trip.query.all()
-        return [faire.to_dict() for faire in at],200
+        return [faire.to_dict(rules=('-vacations',)) for faire in at],200
     def post(self):
         try:
             data = request.get_json()
@@ -192,12 +193,12 @@ class All_Trip(Resource):
             #check if its already in our database
             return sure.to_dict(), 200
         except Exception as e:
-            return make_response('This User is already present'), 404
+            return make_response({'error': str(e)},404)
 class One_Trip(Resource):
     def get(self, id):
         rip = Trip.query.filter(Trip.id == id).first()
         if rip:
-            return rip.to_dict(),200
+            return rip.to_dict(rules=('-vacations',)),200
         else:
             return make_response('This Trip does not exist'),400
     def patch(self, id):
@@ -211,9 +212,10 @@ class One_Trip(Resource):
                 db.session.commit()
                 return one.to_dict(),202
             except Exception as e:
-                return make_response('You can not change this aspect'), 404
+                return make_response({"error": str(e)},404)
         else:
-            return make_response('This Trip does not exist'),404
+            return make_response({
+                'Error': 'Could not find Trip'},404)
     def delete(self, id):
         one = Trip.query.filter(Trip.id == id).first()
         if one:
@@ -223,9 +225,48 @@ class One_Trip(Resource):
         else:
             return make_response({
                 'Error': 'Could not find Trip'
-            }),404
-api.add_resource(All_Trip,'/Trip')
-api.add_resource(One_Trip,'/Trip/<int:id>')
+            },404)
+api.add_resource(All_Trip,'/trip')
+api.add_resource(One_Trip,'/trip/<int:id>')
+
+class One_Vacation(Resource):
+    def get(self, id):
+        vity = Vacation.query.filter(Vacation.id == id).first()
+        if vity:
+            return vity.to_dict(),200
+        else:
+            return make_response('This vacation does not exist',400)
+    def delete(self, id):
+        one = Vacation.query.filter(Vacation.id == id).first()
+        if one:
+            db.session.delete(one)
+            db.session.commit()
+            return {}, 204
+        else:
+            return make_response({
+                'Error': 'Could not find vacation'
+            },404)
+        
+class All_Vacation(Resource):
+    def get(self):
+        at = Vacation.query.all()
+        return [faire.to_dict() for faire in at],200
+    def post(self):
+        try:
+            data = request.get_json()
+            sure = Vacation(
+                start_date = data['start_date'],
+                end_date = data['end_date'],
+                trip_id = data['trip_id']
+            )
+            db.session.add(sure)
+            db.session.commit()
+            return sure.to_dict(), 200
+        except Exception as e:
+            return make_response({'error': str(e)},404)
+
+api.add_resource(One_Vacation,'/vacation/<int:id>')
+api.add_resource(All_Vacation,'/vacation')
 
 
 if __name__ == '__main__':
