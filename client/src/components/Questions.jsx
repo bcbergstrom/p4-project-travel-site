@@ -7,87 +7,36 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
  export default function Allquestions(){
-    // cosnt [cboxes, setcboxes] = useState(false)
+
     const [allquest, setallquest]= useState([])
-    // function howPacked(){
-    //     let h
-    // }
-        // <script>
-        // function checkNo(){
-        //     const checkbox = document.getElementById('styleS');
-        //     const text = document.getElementById('text');
-        //     if (checkbox.checked == true){
-        //         text.style.display = "block";
-        //     } else {
-        //         text.style.display = "none";
-        //     }
-        // }
-        // </script>
     return(
-        <>
-        <h1>Lets get started by packing your luggage!</h1>
-        {/* <form onSubmit={(e)=>
-            e.preventDefault()
-            const pLuggage = {
-                styleS = e.target['StyleShirts'].value, 
-                styleP = e.target['StylePants'].value, 
-                styleA = e.target['StyleAccessories'].value, 
-                iSum = e.target['IsSummer'].value, 
-                aP = e.target['Pants'].value, 
-                aS = e.target['Shirts'].value, 
-                aO = e.target['OtherClothes'].value, 
-                wS = e.target['WorryScale'].value 
-                }
-                
-                }> */}
-                <Form>
-   
         <div>
-         {/* <input type="checkbox" id="styleS" onclick="myFunction()"/> */}
-            {/* <p id="text" style="display:none">Checkbox is CHECKED!</p> */}
+                <Form>
+        <h1>Lets get started by packing your luggage!</h1>
             <Container>
                 <Row>
-                    <Col>Short</Col>
+                    <Col xs='auto'>Short</Col>
                     <Col>Long</Col>
-            <Form>
-                {['Shirt  ', 'Pants  ', 'Accessories  '].map((type) => (
+                    {/* might have to seperate them all to get better results for the luggage */}
+                {['Shirt  ', 'Pants  '].map((type) => (
         <div key={`inline-${type}`} className="mb-3">
-        <label for="styleP" style={{paddingRight: '10px'}}>{type}</label>
-          <Form.Check
-            inline
-            name="group1"
-            type='radio'
-            id={`inline-${type}-1`}
-          />
-          <Form.Check
-            inline
-            name="group1"
-            type='radio'
-            id={`inline-${type}-2`}
-          />
+        <label for="styles" style={{paddingRight: '10px'}}>{type}</label>
+          <Form.Check inline name="Short" type='radio' id='Short' />
+          <Form.Check inline name="Long" type='radio' id='Long'/>
         </div>
       ))}
-                </Form>
-
-                    
-            {/* 
-            <input type="checkbox" id="styleS" name="StyleShirts" check/>
-            <input type="checkbox" id="styleS" name="StyleShirts" check />
-            <input type="checkbox" id="styleP" name="StylePants" check />
-            <input type="checkbox" id="styleP" name="StylePants" check />
-            <label for="styleA">Accessories</label>
-            <input type="checkbox" id="styleA" name="StyleAccessories" check />
-            <input type="checkbox" id="styleA" name="StyleAccessories" check />
-            <label for="styleA">Summer</label>
-            <input type="checkbox" id="iSum" name="IsSummer" check />
-            <input type="checkbox" id="iSum" name="IsSummer" check /> */}
+    <Form.Check type="switch" id="style_accessories" label="Are you an accessories person?"/>
+      <Form.Check type="switch" id="is_Summer" label="Is it summer?"/>
+      <span class= 'input-one-number' id='pants'>Pants</span>
+      <input type='integer' className='form-control'/>
+      <span class= 'input-one-number' id='shirts'>Shirts</span>
+      <input type='integer' className='form-control'/>
+      <span class= 'input-one-number' id='other_clothes'>Other Clothes</span>
+      <input type='integer' className='form-control'/>
             <MenuDropdown/>
                 </Row>
             </Container>
-            </div>
-            
-        {/* </form> */}
                 </Form>
-        </>
+            </div>
     )
 }

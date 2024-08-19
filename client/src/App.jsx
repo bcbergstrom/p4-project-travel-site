@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './css/bootstrap.scss'
 import Allquestions from './components/Questions'
+import ShowLuggage from './components/Luggage'
 
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
 
   return (
     <div>
+      {/* <ShowLuggage/> */}
      <Allquestions/>
     </div>
   )

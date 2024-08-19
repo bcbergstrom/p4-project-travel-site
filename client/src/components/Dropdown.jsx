@@ -4,7 +4,7 @@ export default function MenuDropdown(){
     return (
     <Dropdown>
         <Dropdown.Toggle id="dropdown-basic-button">
-            How many jeans would you like?
+            How much of a stress packer are you?
         </Dropdown.Toggle>
         <Dropdown.Menu>
             <Dropdown.Item>1</Dropdown.Item>
@@ -16,7 +16,7 @@ export default function MenuDropdown(){
             <Dropdown.Item>7</Dropdown.Item>
             <Dropdown.Item>8</Dropdown.Item>
             <Dropdown.Item>9</Dropdown.Item>
-            <Dropdown.Item>10+</Dropdown.Item>
+            <Dropdown.Item>10</Dropdown.Item>
         </Dropdown.Menu>
         </Dropdown>
         
