@@ -2,6 +2,13 @@ from flask import request, make_response, session
 from flask_restful import Resource, Api
 from config import app, db, api
 from models import Luggage, User, Trip, Activity, Luggage, Vacation
+
+
+@app.before_request
+def check_if_logged_in():
+    if not session['user_id'] and request.endpoint != 'login':
+        return make_response({'error':'Please log in first'}, 401)
+        
 class All_Luggage(Resource):
     def get(self):
         ll = Luggage.query.all()
@@ -283,8 +290,21 @@ class Login(Resource):
     
 
 
-
-
+class CheckSession(Resource):
+    def get(self):
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        if user:
+            return user.to_dict()
+        else:
+            return {'message': '401: Not Authorized'}, 401
+        
+class Logout(Resource):
+    def delete(self):
+        session['user_id'] = None
+        return {'message': '204: No Content'}, 200
+    
+api.add_resource(Logout,'/logout', endpoint='logout')
+api.add_resource(CheckSession,'/session')
 api.add_resource(Login,'/login')
 
 if __name__ == '__main__':
