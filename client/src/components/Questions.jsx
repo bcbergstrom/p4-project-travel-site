@@ -49,36 +49,26 @@ import Form from 'react-bootstrap/Form';
                 <Row>
                     <Col>Short</Col>
                     <Col>Long</Col>
-                {['radio', ''].map((type) => (
+            <Form>
+                {['Shirt  ', 'Pants  ', 'Accessories  '].map((type) => (
         <div key={`inline-${type}`} className="mb-3">
-        <label for="styleP">Pants</label>
+        <label for="styleP" style={{paddingRight: '10px'}}>{type}</label>
           <Form.Check
             inline
             name="group1"
-            type={type}
+            type='radio'
             id={`inline-${type}-1`}
           />
           <Form.Check
             inline
             name="group1"
-            type={type}
-            id={`inline-${type}-2`}
-          />
-            <label for="styleS">Shirts</label>
-            <Form.Check
-            inline
-            name="shirts"
-            type={type}
-            id={`inline-${type}-1`}
-          />
-          <Form.Check
-            inline
-            name="group1"
-            type={type}
+            type='radio'
             id={`inline-${type}-2`}
           />
         </div>
       ))}
+                </Form>
+
                     
             {/* 
             <input type="checkbox" id="styleS" name="StyleShirts" check/>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import 'bootstrap/scss/bootstrap.scss'
+import './css/bootstrap.scss'
 import Allquestions from './components/Questions'
 
 
