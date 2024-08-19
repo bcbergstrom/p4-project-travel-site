@@ -1,4 +1,4 @@
-from flask import request, make_response
+from flask import request, make_response, session
 from flask_restful import Resource, Api
 from config import app, db, api
 from models import Luggage, User, Trip, Activity, Luggage, Vacation
@@ -268,6 +268,24 @@ class All_Vacation(Resource):
 api.add_resource(One_Vacation,'/vacation/<int:id>')
 api.add_resource(All_Vacation,'/vacation')
 
+
+
+class Login(Resource):
+    def post(self):
+        username = request.get_json()['username']
+        user = User.query.filter(User.username == username)
+        password = request.get_json()['password']
+        if user.authenticate(password):
+            session['user_id'] = user.id
+            return user.to_dict(), 200
+        
+        return make_response({'error':'Invalid username or password'}, 401)
+    
+
+
+
+
+api.add_resource(Login,'/login')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
