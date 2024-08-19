@@ -4,7 +4,7 @@ export default function MenuDropdown(){
     return (
     <Dropdown>
         <Dropdown.Toggle id="dropdown-basic-button">
-            Menu
+            How many jeans would you like?
         </Dropdown.Toggle>
         <Dropdown.Menu>
             <Dropdown.Item>1</Dropdown.Item>
