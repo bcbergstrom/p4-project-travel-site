@@ -1,9 +1,28 @@
 import React from "react";
 import { useState } from "react";
+import MenuDropdown from "./Dropdown";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 
  export default function Allquestions(){
     // cosnt [cboxes, setcboxes] = useState(false)
     const [allquest, setallquest]= useState([])
+    // function howPacked(){
+    //     let h
+    // }
+        // <script>
+        // function checkNo(){
+        //     const checkbox = document.getElementById('styleS');
+        //     const text = document.getElementById('text');
+        //     if (checkbox.checked == true){
+        //         text.style.display = "block";
+        //     } else {
+        //         text.style.display = "none";
+        //     }
+        // }
+        // </script>
     return(
         <>
         <h1>Lets get started by packing your luggage!</h1>
@@ -18,14 +37,52 @@ import { useState } from "react";
                 aS = e.target['Shirts'].value, 
                 aO = e.target['OtherClothes'].value, 
                 wS = e.target['WorryScale'].value 
-            }
-
-        }> */}
-         <div>
+                }
+                
+                }> */}
+                <Form>
+   
+        <div>
+         {/* <input type="checkbox" id="styleS" onclick="myFunction()"/> */}
+            {/* <p id="text" style="display:none">Checkbox is CHECKED!</p> */}
+            <Container>
+                <Row>
+                    <Col>Short</Col>
+                    <Col>Long</Col>
+                {['radio', ''].map((type) => (
+        <div key={`inline-${type}`} className="mb-3">
+        <label for="styleP">Pants</label>
+          <Form.Check
+            inline
+            name="group1"
+            type={type}
+            id={`inline-${type}-1`}
+          />
+          <Form.Check
+            inline
+            name="group1"
+            type={type}
+            id={`inline-${type}-2`}
+          />
             <label for="styleS">Shirts</label>
-            <input type="checkbox" id="styleS" name="scales" check />
+            <Form.Check
+            inline
+            name="shirts"
+            type={type}
+            id={`inline-${type}-1`}
+          />
+          <Form.Check
+            inline
+            name="group1"
+            type={type}
+            id={`inline-${type}-2`}
+          />
+        </div>
+      ))}
+                    
+            {/* 
+            <input type="checkbox" id="styleS" name="StyleShirts" check/>
             <input type="checkbox" id="styleS" name="StyleShirts" check />
-            <label for="styleP">Pants</label>
             <input type="checkbox" id="styleP" name="StylePants" check />
             <input type="checkbox" id="styleP" name="StylePants" check />
             <label for="styleA">Accessories</label>
@@ -33,18 +90,14 @@ import { useState } from "react";
             <input type="checkbox" id="styleA" name="StyleAccessories" check />
             <label for="styleA">Summer</label>
             <input type="checkbox" id="iSum" name="IsSummer" check />
-            <input type="checkbox" id="iSum" name="IsSummer" check />
+            <input type="checkbox" id="iSum" name="IsSummer" check /> */}
+            <MenuDropdown/>
+                </Row>
+            </Container>
             </div>
             
         {/* </form> */}
+                </Form>
         </>
     )
 }
-{/* <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">dropsown</button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        </div> */}
