@@ -1,50 +1,42 @@
 import React from "react";
 import { useState } from "react";
+import MenuDropdown from "./Dropdown";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 
  export default function Allquestions(){
-    // cosnt [cboxes, setcboxes] = useState(false)
+
     const [allquest, setallquest]= useState([])
     return(
-        <>
+        <div>
+                <Form>
         <h1>Lets get started by packing your luggage!</h1>
-        {/* <form onSubmit={(e)=>
-            e.preventDefault()
-            const pLuggage = {
-                styleS = e.target['StyleShirts'].value, 
-                styleP = e.target['StylePants'].value, 
-                styleA = e.target['StyleAccessories'].value, 
-                iSum = e.target['IsSummer'].value, 
-                aP = e.target['Pants'].value, 
-                aS = e.target['Shirts'].value, 
-                aO = e.target['OtherClothes'].value, 
-                wS = e.target['WorryScale'].value 
-            }
-
-        }> */}
-         <div>
-            <label for="styleS">Shirts</label>
-            <input type="checkbox" id="styleS" name="scales" check />
-            <input type="checkbox" id="styleS" name="StyleShirts" check />
-            <label for="styleP">Pants</label>
-            <input type="checkbox" id="styleP" name="StylePants" check />
-            <input type="checkbox" id="styleP" name="StylePants" check />
-            <label for="styleA">Accessories</label>
-            <input type="checkbox" id="styleA" name="StyleAccessories" check />
-            <input type="checkbox" id="styleA" name="StyleAccessories" check />
-            <label for="styleA">Summer</label>
-            <input type="checkbox" id="iSum" name="IsSummer" check />
-            <input type="checkbox" id="iSum" name="IsSummer" check />
+            <Container>
+                <Row>
+                    <Col xs='auto'>Short</Col>
+                    <Col>Long</Col>
+                    {/* might have to seperate them all to get better results for the luggage */}
+                {['Shirt  ', 'Pants  '].map((type) => (
+        <div key={`inline-${type}`} className="mb-3">
+        <label for="styles" style={{paddingRight: '10px'}}>{type}</label>
+          <Form.Check inline name="Short" type='radio' id='Short' />
+          <Form.Check inline name="Long" type='radio' id='Long'/>
+        </div>
+      ))}
+    <Form.Check type="switch" id="style_accessories" label="Are you an accessories person?"/>
+      <Form.Check type="switch" id="is_Summer" label="Is it summer?"/>
+      <span class= 'input-one-number' id='pants'>Pants</span>
+      <input type='integer' className='form-control'/>
+      <span class= 'input-one-number' id='shirts'>Shirts</span>
+      <input type='integer' className='form-control'/>
+      <span class= 'input-one-number' id='other_clothes'>Other Clothes</span>
+      <input type='integer' className='form-control'/>
+            <MenuDropdown/>
+                </Row>
+            </Container>
+                </Form>
             </div>
-            
-        {/* </form> */}
-        </>
     )
 }
-{/* <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">dropsown</button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        </div> */}

@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import 'bootstrap/scss/bootstrap.scss'
+import './css/bootstrap.scss'
 import Allquestions from './components/Questions'
-import MenuDropdown from './components/Dropdown'
+import ShowLuggage from './components/Luggage'
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <div>
-      <MenuDropdown/>
+      {/* <ShowLuggage/> */}
      <Allquestions/>
     </div>
   )
