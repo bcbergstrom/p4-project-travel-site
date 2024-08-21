@@ -4,16 +4,36 @@ import Allquestions from './components/Questions'
 import ShowLuggage from './components/Luggage'
 import Places from './components/Activities'
 import Trip from './components/Trip'
+import Login from './components/Login'
+import Register from './components/Register'
+import {
+  RouterProvider,
+  Route,
+  Link,
+  createBrowserRouter
+} from 'react-router-dom'
 
 
 function App() {
-
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Login/>
+    },
+    {
+      path: "/register",
+      element: <Register/>
+    },
+    {
+      path: "/questions",
+      element: <Allquestions/>
+    }
+  ])
   return (
     <div>
-      {/* <Trip/> */}
-      {/* <Places/> */}
-      {/* <ShowLuggage/> */}
-     <Allquestions/>
+      {/* <ShowLuggage/>
+     <Allquestions/> */}
+    <RouterProvider router={router}/>
     </div>
   )
 }

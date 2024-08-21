@@ -1,7 +1,17 @@
-from flask import request, make_response
+from flask import request, make_response, session
 from flask_restful import Resource, Api
 from config import app, db, api
 from models import Luggage, User, Trip, Activity, Luggage, Vacation
+
+
+@app.before_request
+def check_if_logged_in():
+    print(request.endpoint)
+    if  session.get('user_id') or  request.endpoint in ('login','register'):
+        pass
+    else:
+        return make_response({'error':'Please log in first'}, 401)
+        
 class All_Luggage(Resource):
     def get(self):
         ll = Luggage.query.all()
@@ -61,8 +71,8 @@ class Editing(Resource):
             return make_response({
                 'Error': 'Could not find luggage'
             },404)
-api.add_resource(All_Luggage,'/luggages')
-api.add_resource(Editing,'/luggages/<int:id>')
+api.add_resource(All_Luggage,'/api/luggages')
+api.add_resource(Editing,'/api/luggages/<int:id>')
 
 
 class All_Activity(Resource):
@@ -127,16 +137,16 @@ class All_User(Resource):
     def post(self):
         try:
             data = request.get_json()
-            sure = User(
+            new_user = User(
                 username = data['username'], 
                 budget = data['budget'], 
                 is_alone = data['is_alone'], 
                 password = data['password'],
                 email = data['email']
             )
-            db.session.add(sure)
+            db.session.add(new_user)
             db.session.commit()
-            return sure.to_dict('-vacations',),200
+            return new_user.to_dict(rules=('-vacations',)),200
         except Exception as e:
             return make_response({'errors': str(e)},404)
 class One_User(Resource):
@@ -170,8 +180,8 @@ class One_User(Resource):
             return make_response({
                 'error': 'Could not find user'
             },404)
-api.add_resource(All_User,'/user')
-api.add_resource(One_User,'/user/<int:id>')
+api.add_resource(All_User,'/users', endpoint='register')
+api.add_resource(One_User,'/users/<int:id>')
 
 
 class All_Trip(Resource):
@@ -269,6 +279,36 @@ class All_Vacation(Resource):
 api.add_resource(One_Vacation,'/vacation/<int:id>')
 api.add_resource(All_Vacation,'/vacation')
 
+
+
+class Login(Resource):
+    def post(self):
+        email = request.get_json()['email']
+        user = User.query.filter(User.email == email).first()
+        password = request.get_json()['password']
+        if user.authenticate(password):
+            session['user_id'] = user.id
+            return user.to_dict(), 200
+        return make_response({'error':'Invalid username or password'}, 401)
+    
+
+
+class CheckSession(Resource):
+    def get(self):
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        if user:
+            return user.to_dict()
+        else:
+            return {'message': '401: Not Authorized'}, 401
+        
+class Logout(Resource):
+    def delete(self):
+        session['user_id'] = None
+        return {'message': '204: No Content'}, 200
+    
+api.add_resource(Logout,'/logout')
+api.add_resource(CheckSession,'/session')
+api.add_resource(Login,'/login')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

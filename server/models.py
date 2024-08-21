@@ -1,8 +1,7 @@
-from flask_bcrypt import Bcrypt
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy.ext.associationproxy import association_proxy
-from config import db
+from config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 
 class Activity(db.Model, SerializerMixin):
@@ -33,6 +32,7 @@ class Activity(db.Model, SerializerMixin):
             return value
         else:
             raise ValueError('Oops, something was spelled wrong or the wrong type was inputed')
+    
 
 
 class Vacation(db.Model, SerializerMixin):
@@ -44,7 +44,7 @@ class Vacation(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates = 'vacations', cascade ="all")
     activity = db.relationship('Activity', back_populates = 'vacations', cascade ="all")
     trip = db.relationship('Trip', back_populates= 'vacations', cascade ="all")
-    serialize_rules = ('-user.vacations', '-activity.vacations', '-trip.vacations')  
+    serialize_rules = ('-user.vacations', '-activity.vacations', '-trip.vacations',)  
 
 
 class User(db.Model, SerializerMixin):
@@ -53,20 +53,20 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String , nullable=False)
     budget = db.Column(db.Float, nullable=False)
     is_alone = db.Column(db.Boolean)
-    password = db.Column(db.String, nullable=False)
+    _password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique = True)
     serialize_rules = ('-luggages.user', '-vacations.user',)
     luggages = db.relationship('Luggage', back_populates = 'user', cascade ="all, delete-orphan")
     vacations = db.relationship('Vacation', back_populates = 'user', cascade ="all, delete-orphan")
     @hybrid_property
-    def password_hash(self):
-        return self._password_hash
-    @password_hash.setter
-    def password_hash(self, password):
-        password_hash = Bcrypt.generate_password_hash(password.encode('utf-8'))
-        self._password_hash = password_hash.decode('utf-8')
+    def password(self):
+        return self._password
+    @password.setter
+    def password(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self._password = password_hash.decode('utf-8')
     def authenticate(self,password):
-        return Bcrypt.check_password_hash(self._password_hash,password.encode('utf-8'))
+        return bcrypt.check_password_hash(self._password, password.encode('utf-8'))
 
     @validates('username')
     def check_username(self, key, value):
@@ -85,13 +85,14 @@ class User(db.Model, SerializerMixin):
         if type(value) is str and 8 <= len(value) <= 16: ####
             return value
         else:
-            raise ValueError('Make your passowrd 8 letters')
+            raise ValueError('Make your password 8 letters')
     @validates('email')
     def validate_email(self,key,value):
-        if type(value) is str and "@" in value and "." in value:
+        emails = User.query.filter(User.email == value).first()
+        if not emails and '@' in value:
             return value
         else:
-            raise ValueError("Not valid email")
+            raise ValueError("Invalid Email or Account not Registered")
 
 
 class Luggage(db.Model, SerializerMixin):
