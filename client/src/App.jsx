@@ -27,7 +27,20 @@ function App() {
     {
       path: "/questions",
       element: <Allquestions/>
+    },
+    {
+      path: "/luggage",
+      element: <ShowLuggage/>
+    },
+    {
+      path: "/activities",
+      element: <Places/>
+    },
+    {
+      path: "/trip",
+      element: <Trip/>
     }
+
   ])
   return (
     <div>
