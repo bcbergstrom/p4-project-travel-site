@@ -32,6 +32,7 @@ class Activity(db.Model, SerializerMixin):
             return value
         else:
             raise ValueError('Oops, something was spelled wrong or the wrong type was inputed')
+    
 
 
 class Vacation(db.Model, SerializerMixin):
@@ -43,7 +44,7 @@ class Vacation(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates = 'vacations', cascade ="all")
     activity = db.relationship('Activity', back_populates = 'vacations', cascade ="all")
     trip = db.relationship('Trip', back_populates= 'vacations', cascade ="all")
-    serialize_rules = ('-user.vacations', '-activity.vacations', '-trip.vacations')  
+    serialize_rules = ('-user.vacations', '-activity.vacations', '-trip.vacations',)  
 
 
 class User(db.Model, SerializerMixin):
@@ -84,13 +85,14 @@ class User(db.Model, SerializerMixin):
         if type(value) is str and 8 <= len(value) <= 16: ####
             return value
         else:
-            raise ValueError('Make your passowrd 8 letters')
+            raise ValueError('Make your password 8 letters')
     @validates('email')
     def validate_email(self,key,value):
-        if type(value) is str and "@" in value and "." in value:
+        emails = User.query.filter(User.email == value).first()
+        if not emails and '@' in value:
             return value
         else:
-            raise ValueError("Not valid email")
+            raise ValueError("Invalid Email or Account not Registered")
 
 
 class Luggage(db.Model, SerializerMixin):
