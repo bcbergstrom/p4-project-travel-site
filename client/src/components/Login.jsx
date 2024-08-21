@@ -30,7 +30,7 @@ function Login() {
                     .then(data => {
                         if (data.error == null) {
                             alert("Login Successful")
-                            nav('/questions')
+                            nav('/trip')
                         } else {
                             alert(data.error)
                         }

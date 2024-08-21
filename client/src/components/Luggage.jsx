@@ -6,7 +6,29 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-export default function Showluggage(){
+export default function Showluggage({allquest, setAllquest}){
+
+  function handleEdit(){
+    fetch(`api/`,{
+      method:"PATCH",
+      headers:{
+        "Content-Type": "Application/json"
+      },
+      body: JSON.stringify({
+        : 
+      })
+    })
+    .then(r=>r.json())
+    .then(updatedLug=>{
+      const newArr = projects.map(project => {
+        if(project.id === updatedProject.id){
+          return updatedProject
+        }
+        return project
+      })
+      setProjects(newArr)
+    })
+  }
 return(
     <div>
     <h1>This is your packed Luggage!</h1>
@@ -21,9 +43,9 @@ return(
           title="Dropdown"
           id="input-group-dropdown-1"
         >
-              <Dropdown.Item href="#">Pants</Dropdown.Item>
-          <Dropdown.Item href="#">Shirts</Dropdown.Item>
-          <Dropdown.Item href="#">Accessories</Dropdown.Item>
+              <Dropdown.Item>Pants</Dropdown.Item>
+          <Dropdown.Item>Shirts</Dropdown.Item>
+          <Dropdown.Item>Other clothes</Dropdown.Item>
         </DropdownButton>
       </InputGroup>
       <Button variant="secondary">Submit</Button>

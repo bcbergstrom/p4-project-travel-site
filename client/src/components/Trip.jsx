@@ -15,7 +15,7 @@ export default function Trip(){
     
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("/api/start_trip",{
+    fetch("/api/trip",{
         method: "POST",
         headers: {
           "Content-Type": "application/json",

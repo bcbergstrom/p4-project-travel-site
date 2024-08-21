@@ -25,6 +25,10 @@ function App() {
       element: <Register/>
     },
     {
+      path: "/trip",
+      element: <Trip/>
+    },
+    {
       path: "/questions",
       element: <Allquestions/>
     },
@@ -36,16 +40,11 @@ function App() {
       path: "/activities",
       element: <Places/>
     },
-    {
-      path: "/trip",
-      element: <Trip/>
-    }
 
   ])
   return (
     <div>
-      {/* <ShowLuggage/>
-     <Allquestions/> */}
+
     <RouterProvider router={router}/>
     </div>
   )
