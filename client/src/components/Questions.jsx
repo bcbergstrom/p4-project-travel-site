@@ -5,18 +5,49 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
  export default function Allquestions(){
+    const [allquest, setallquest]= useState([]);
+    const [sts, setSts] =useState(false);
+    const [stp, setStp] = useState(false);
+    const [sta, setSta] =useState(false);
+    const [mer, setMer] =useState(false);
+    const [pan, setPan] =useState("");
+    const [ts, setTs] =useState("");
+    const [oc, setOc] =useState("");
 
-    const [allquest, setallquest]= useState([])
+    function handleSubmit(e) {
+      e.preventDefault();
+      fetch("/api/start_luggage",{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        }
+      )
+      .then(r=>{
+        if (r.ok) { return r.json()}
+        else {throw new Error}
+      })
+      .then(data=>{
+        setFro(data)
+      })
+      .catch(data=>{
+        alert("One of your inputs is invalid")
+      })
+    }
     return(
         <div>
                 <Form>
-        <h1>Lets get started by packing your luggage!</h1>
+        <h1 class='display-1'>Lets get started by packing your luggage!</h1>
             <Container>
                 <Row>
                     <Col xs='auto'>Short</Col>
                     <Col>Long</Col>
+                    </Row>
+                </Container>
                     {/* might have to seperate them all to get better results for the luggage */}
                 {['Shirt  ', 'Pants  '].map((type) => (
         <div key={`inline-${type}`} className="mb-3">
@@ -34,8 +65,7 @@ import Form from 'react-bootstrap/Form';
       <span class= 'input-one-number' id='other_clothes'>Other Clothes</span>
       <input type='integer' className='form-control'/>
             <MenuDropdown/>
-                </Row>
-            </Container>
+            <Button type ="submit">Submit</Button>
                 </Form>
             </div>
     )

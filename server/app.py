@@ -34,6 +34,7 @@ class All_Luggage(Resource):
             return lugg.to_dict(rules=('-user',)), 200
         except Exception as e:
             return make_response({'error': str(e)},404)
+#this get one, patch, and delete are for luggage 
 class Editing(Resource):
     def get(self, id):
         lug = Luggage.query.filter(Luggage.id == id).first()

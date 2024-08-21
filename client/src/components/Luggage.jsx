@@ -29,6 +29,12 @@ return(
       <Button variant="secondary">Submit</Button>
       <Button variant="outline-danger">Reset</Button>
     </Stack>
+    <ul>
+        <li>Pants-{}</li>
+        <li>Shirts-{}</li>
+        <li>Other Clothes-{}</li>
+        <li>Accessories-{}</li>
+    </ul>
     </div>
 )
 }

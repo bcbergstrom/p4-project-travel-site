@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import React from 'react'
 import './css/bootstrap.scss'
 import Allquestions from './components/Questions'
 import ShowLuggage from './components/Luggage'
+import Places from './components/Activities'
+import Trip from './components/Trip'
 import Login from './components/Login'
 import Register from './components/Register'
 import {
