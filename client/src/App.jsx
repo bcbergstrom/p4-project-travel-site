@@ -1,14 +1,17 @@
-import { useState } from 'react'
+import React from 'react'
 import './css/bootstrap.scss'
 import Allquestions from './components/Questions'
 import ShowLuggage from './components/Luggage'
+import Places from './components/Activities'
+import Trip from './components/Trip'
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div>
+      {/* <Trip/> */}
+      {/* <Places/> */}
       {/* <ShowLuggage/> */}
      <Allquestions/>
     </div>

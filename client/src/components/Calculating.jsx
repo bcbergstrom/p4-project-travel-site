@@ -1,7 +1,7 @@
 import React from "react";
 import Allquestions from "./Questions";
 import { useState } from "react";
-
+//this anit anything jsut starting how i want it to be and look 
 
 function SummerVac(){
     if Pants.id == Short && Shirt.id == Short(
