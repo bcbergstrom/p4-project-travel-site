@@ -6,7 +6,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-// import Showluggage from "./Luggage";
 
 //the sets go, style shirt, pant, accessorie, is_summer, pants, shirt, and other clothes
  export default function Allquestions(){
@@ -40,36 +39,30 @@ import Button from 'react-bootstrap/Button';
         alert("One of your inputs is invalid")
       })
     }
+    
     return(
         <div>
+          {/* <body style="background-color:powderblue;"/> */}
                 <Form onSubmit={()=>handleSubmit()}>
+                  
         <h1 class='display-1'>Lets get started by packing your luggage!</h1>
-            <Container>
-                <Row>
-                    <Col xs='auto'>Short</Col>
-                    <Col>Long</Col>
-                    </Row>
-                </Container>
-                    {/* might have to seperate them all to get better results for the luggage */}
-                {['Shirt  ', 'Pants  '].map((type) => (
-        <div key={`inline-${type}`} className="mb-3">
-        <label for="styles" style={{paddingRight: '10px'}}>{type}</label>
-          <Form.Check inline name="style_shirts" type='radio' id='style_shirts' value={sts} onChange={(e)=>setSts(e.target.value)}/>
-          <Form.Check inline name="style_pants" type='radio' id='style_pants' value={stp} onChange={(e)=>setStp(e.target.value)}/>
-        </div>
-      ))}
+        <Form.Label>Shirt options</Form.Label>
+        <Form.Check type="switch" id="style_shirts" label="Long sleeve or short sleeve?" value={sts} onChange={(e)=>setSts(e.target.value)}/>
+        <Form.Label>Pant options</Form.Label>
+          <Form.Check type="switch" id="style_pants" label="Pants or shorts?" value={stp} onChange={(e)=>setStp(e.target.value)}/>
     <Form.Check type="switch" id="style_accessories" label="Are you an accessories person?" value={sta} onChange={(e)=>setSta(e.target.value)}/>
       <Form.Check type="switch" id="is_Summer" label="Is it summer?"value={mer} onChange={(e)=>setMer(e.target.value)}/>
-      <span class= 'input-one-number' id='pants'>Pants</span>
+      <span class= 'input-one-number' id='pants'>How many pants do you want to pack?</span>
       <input type='integer' className='form-control'value={pan} onChange={(e)=>setPan(e.target.value)}/>
-      <span class= 'input-one-number' id='shirts'>Shirts</span>
+      <span class= 'input-one-number' id='shirts'>How many shirts do you want to pack?</span>
       <input type='integer' className='form-control'value={ts} onChange={(e)=>setTs(e.target.value)}/>
-      <span class= 'input-one-number' id='other_clothes'>Other Clothes</span>
+      <span class= 'input-one-number' id='other_clothes'>How many other clothes do you want to pack(socks,underwear,boxers,bra)?</span>
       <input type='integer' className='form-control'value={oc} onChange={(e)=>setOc(e.target.value)}/>
+      <Form.Label>How mch of a stress packer are you?</Form.Label>
             <MenuDropdown/>
-            <Button type ="submit">Submit</Button>
+            <Button type ="submit"class="btn btn-primary btn-sm">Submit</Button>
                 </Form>
-                {/* <Showluggage allquest={allquest} setAllquest={setAllquest}/> */}
             </div>
+            
     )
 }
