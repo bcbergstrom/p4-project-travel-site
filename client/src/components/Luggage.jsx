@@ -8,27 +8,27 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function Showluggage({allquest, setAllquest}){
 
-  function handleEdit(){
-    fetch(`api/`,{
-      method:"PATCH",
-      headers:{
-        "Content-Type": "Application/json"
-      },
-      body: JSON.stringify({
-        : 
-      })
-    })
-    .then(r=>r.json())
-    .then(updatedLug=>{
-      const newArr = projects.map(project => {
-        if(project.id === updatedProject.id){
-          return updatedProject
-        }
-        return project
-      })
-      setProjects(newArr)
-    })
-  }
+  // function handleEdit(){
+  //   fetch(`api/`,{
+  //     method:"PATCH",
+  //     headers:{
+  //       "Content-Type": "Application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       : 
+  //     })
+  //   })
+  //   .then(r=>r.json())
+  //   .then(updatedLug=>{
+  //     const newArr = projects.map(project => {
+  //       if(project.id === updatedProject.id){
+  //         return updatedProject
+  //       }
+  //       return project
+  //     })
+  //     setProjects(newArr)
+  //   })
+  // }
 return(
     <div>
     <h1>This is your packed Luggage!</h1>

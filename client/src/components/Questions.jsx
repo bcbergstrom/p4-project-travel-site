@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Showluggage from "./Luggage";
+// import Showluggage from "./Luggage";
 
 //the sets go, style shirt, pant, accessorie, is_summer, pants, shirt, and other clothes
  export default function Allquestions(){
@@ -69,7 +69,7 @@ import Showluggage from "./Luggage";
             <MenuDropdown/>
             <Button type ="submit">Submit</Button>
                 </Form>
-                <Showluggage allquest={allquest} setAllquest={setAllquest}/>
+                {/* <Showluggage allquest={allquest} setAllquest={setAllquest}/> */}
             </div>
     )
 }
