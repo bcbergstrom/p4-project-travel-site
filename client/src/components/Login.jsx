@@ -3,7 +3,6 @@ import button from 'react-bootstrap/Button';
 import Button from 'react-bootstrap/Button';
 import { Card, Col, Row } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 
 function Login({email, setEmail, password, setPassword, user, setUser}) {
@@ -18,7 +17,6 @@ function Login({email, setEmail, password, setPassword, user, setUser}) {
                 <Form onSubmit={(e) =>  {
                     e.preventDefault()
                     setEmail(e.target[0].value)
-                    setPassword(e.target[1].value)
                     fetch('/api/login', {
                         method: 'POST',
                         headers: {
@@ -31,9 +29,8 @@ function Login({email, setEmail, password, setPassword, user, setUser}) {
                     })
                     .then(res => res.json())
                     .then(data => {
-                        if (data.error == null) {
+                        if (data.error == null || data.error == undefined) {
                             alert("Login Successful")
-
                             setUser(data)
                             nav('/trip')
 
@@ -44,7 +41,7 @@ function Login({email, setEmail, password, setPassword, user, setUser}) {
                 }}>
                     <Form.Group className='mb-3 mt-5' controlId='loginEmail'>
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type='email' placeholder='Enter email' />
+                        <Form.Control onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Enter email' />
                         <Form.Text className='text-muted'>
                             Enter your registered email address
                         </Form.Text>
@@ -52,7 +49,7 @@ function Login({email, setEmail, password, setPassword, user, setUser}) {
 
                     <Form.Group className='mb-3' controlId='loginPassword'>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type='password' placeholder='Enter Password' />
+                        <Form.Control onChange={(e) => setPassword(e.target.value)} type='password' placeholder='Enter Password' />
                         <Form.Text className='text-muted'>
                             Enter your registered password
                         </Form.Text>

@@ -22,7 +22,6 @@ import { useNavigate } from "react-router-dom";
     const [ts, setTs] =useState("");
     const [oc, setOc] =useState("");
 
-
     function handleSubmit(e) {
       e.preventDefault();
       fetch("/api/luggage",{
@@ -38,7 +37,8 @@ import { useNavigate } from "react-router-dom";
         else {throw new Error}
       })
       .then(data=>{
-        setAllquest(data)
+        setallquest(data)
+        navigate('/trip')
       })
       .catch(data=>{
         alert("One of your inputs is invalid")

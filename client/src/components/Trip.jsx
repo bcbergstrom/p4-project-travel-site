@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 //the useStates go like
 //set the users trip, location, season, is_winter, price, is_flying, and weight_limit
-export default function Trip(){
+export default function Trip({user}){
     const [fro, setFro] = useState([]);
     const [loc, setLoc] = useState("");
     const [son, setSon] = useState("");
@@ -36,6 +36,7 @@ export default function Trip(){
   }
     return(
         <Form>
+          {alert(user)}
             <h1 class='display-1' >Lets plan out your trip!!!</h1>
        <Form.Group className='trips' id='location' onSubmit={handleSubmit}>
        <Form.Label>Enter your destination</Form.Label>

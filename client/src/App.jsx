@@ -47,7 +47,7 @@ function App() {
     },
     {
       path: "/trip",
-      element: <Trip/>,
+      element: <Trip user={user}/>,
       loader: () => {
        return user ? true: redirect("/")
       }
@@ -65,7 +65,7 @@ function App() {
       path: "/luggage",
       element: <ShowLuggage user={user} />,
       loader: () => {
-       return user ? true: redirect("/")
+        return user ? true: redirect("/")
       }
     },
     {

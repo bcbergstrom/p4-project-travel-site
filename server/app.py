@@ -287,9 +287,11 @@ api.add_resource(All_Vacation,'/vacation')
 class Login(Resource):
     def post(self):
         email = request.get_json()['email']
+        print(email)
         user = User.query.filter(User.email == email).first()
+        print(user)
         password = request.get_json()['password']
-        if user.authenticate(password) and user:
+        if user and user.authenticate(password):
             session['user_id'] = user.id
             return user.to_dict(), 200
         return make_response({'error':'Invalid username or password'}, 401)
