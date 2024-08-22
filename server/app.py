@@ -7,11 +7,14 @@ from models import Luggage, User, Trip, Activity, Luggage, Vacation
 @app.before_request
 def check_if_logged_in():
     print(request.endpoint)
-    if  session.get('user_id') or  request.endpoint in ('login','register'):
+    if  session.get('user_id') or request.endpoint in ('login','register','session'):
         pass
     else:
-        return make_response({'error':'Please log in first'}, 401)
+        return make_response({'error':'Please log in first'}, 403)
         
+
+
+
 class All_Luggage(Resource):
     def get(self):
         ll = Luggage.query.all()
@@ -286,7 +289,7 @@ class Login(Resource):
         email = request.get_json()['email']
         user = User.query.filter(User.email == email).first()
         password = request.get_json()['password']
-        if user.authenticate(password):
+        if user.authenticate(password) and user:
             session['user_id'] = user.id
             return user.to_dict(), 200
         return make_response({'error':'Invalid username or password'}, 401)
@@ -305,9 +308,22 @@ class Logout(Resource):
     def delete(self):
         session['user_id'] = None
         return {'message': '204: No Content'}, 200
+
+
+class SaveSession(Resource):
+    def get(self):
+        print(session)
+        return {}
     
+    def post(self):
+        data = request.get_json()
+        session['data'] = data['data']
+        print(data)
+        return {}
+
+api.add_resource(SaveSession,'/session/save')
 api.add_resource(Logout,'/logout')
-api.add_resource(CheckSession,'/session')
+api.add_resource(CheckSession,'/session', endpoint='session')
 api.add_resource(Login,'/login')
 
 if __name__ == '__main__':
