@@ -6,10 +6,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from "react-router-dom";
+
 
 //the sets go, style shirt, pant, accessorie, is_summer, pants, shirt, and other clothes
- export default function Allquestions(){
-    const [allquest, setAllquest]= useState([]);
+
+ export default function Allquestions({user, navigate}) {
+    const [allquest, setallquest]= useState([]);
+
     const [sts, setSts] =useState(false);
     const [stp, setStp] = useState(false);
     const [sta, setSta] =useState(false);
@@ -17,6 +21,7 @@ import Button from 'react-bootstrap/Button';
     const [pan, setPan] =useState("");
     const [ts, setTs] =useState("");
     const [oc, setOc] =useState("");
+
 
     function handleSubmit(e) {
       e.preventDefault();
@@ -45,6 +50,7 @@ import Button from 'react-bootstrap/Button';
           {/* <body style="background-color:powderblue;"/> */}
                 <Form onSubmit={()=>handleSubmit()}>
                   
+
         <h1 class='display-1'>Lets get started by packing your luggage!</h1>
         <Form.Label>Shirt options</Form.Label>
         <Form.Check type="switch" id="style_shirts" label="Long sleeve or short sleeve?" value={sts} onChange={(e)=>setSts(e.target.value)}/>
