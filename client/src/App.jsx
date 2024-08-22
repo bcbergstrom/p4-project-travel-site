@@ -47,7 +47,10 @@ function App() {
     },
     {
       path: "/trip",
-      element: <Trip/>
+      element: <Trip/>,
+      loader: () => {
+       return user ? true: redirect("/")
+      }
     },
     {
       path: "/questions",
@@ -57,6 +60,21 @@ function App() {
        return user ? true: redirect("/")
       }
     }
+  ,
+    {
+      path: "/luggage",
+      element: <ShowLuggage user={user} />,
+      loader: () => {
+       return user ? true: redirect("/")
+      }
+    },
+    {
+      path: "/places",
+      element: <Places user={user} />,
+      loader: () => {
+       return user ? true: redirect("/")
+      }
+    },
   ])
   return (
     <div>
