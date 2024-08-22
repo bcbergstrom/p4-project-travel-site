@@ -6,8 +6,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from "react-router-dom";
 
- export default function Allquestions(){
+ export default function Allquestions({user, navigate}) {
     const [allquest, setallquest]= useState([]);
     const [sts, setSts] =useState(false);
     const [stp, setStp] = useState(false);
@@ -16,6 +17,7 @@ import Button from 'react-bootstrap/Button';
     const [pan, setPan] =useState("");
     const [ts, setTs] =useState("");
     const [oc, setOc] =useState("");
+
 
     function handleSubmit(e) {
       e.preventDefault();
@@ -38,9 +40,10 @@ import Button from 'react-bootstrap/Button';
         alert("One of your inputs is invalid")
       })
     }
+
     return(
         <div>
-                <Form>
+          <Form>
         <h1 class='display-1'>Lets get started by packing your luggage!</h1>
             <Container>
                 <Row>

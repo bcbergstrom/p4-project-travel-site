@@ -3,9 +3,10 @@ import button from 'react-bootstrap/Button';
 import Button from 'react-bootstrap/Button';
 import { Card, Col, Row } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 
-function Login() {
+function Login({email, setEmail, password, setPassword, user, setUser}) {
 
     const nav = useNavigate()
     return (
@@ -16,20 +17,23 @@ function Login() {
                 <h1 className='mt-5 mb-5 text-center'>Traveler</h1>
                 <Form onSubmit={(e) =>  {
                     e.preventDefault()
+                    setEmail(e.target[0].value)
+                    setPassword(e.target[1].value)
                     fetch('/api/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            email: e.target[0].value,
-                            password: e.target[1].value
+                            email: email,
+                            password: password
                         })
                     })
                     .then(res => res.json())
                     .then(data => {
                         if (data.error == null) {
                             alert("Login Successful")
+                            setUser(data)
                             nav('/questions')
                         } else {
                             alert(data.error)
