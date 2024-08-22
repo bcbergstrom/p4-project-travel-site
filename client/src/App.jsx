@@ -31,7 +31,35 @@ function App() {
       
   }, [])
   
-
+  function login(e){
+    e.preventDefault()
+    fetch('/',
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        {
+          username: loginUser,
+          password: loginPassword,
+          stayLoggedIn: stayLoggedIn
+        }
+      )
+    })
+    .then(r=>{
+      if(r.ok){
+        setLoginPassword("")
+        setLoginUser("")
+        return r.json()
+      }
+      else{
+        alert("Not valid login credentials")
+        return undefined
+      }
+    })
+    .then(data=>setUser(data))
+  }
 
 
   const router = createBrowserRouter([

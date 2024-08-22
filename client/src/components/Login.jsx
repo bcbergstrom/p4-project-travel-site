@@ -35,7 +35,7 @@ function Login({email, setEmail, password, setPassword, user, setUser}) {
                             alert("Login Successful")
 
                             setUser(data)
-                            nav('/questions')
+                            nav('/trip')
 
                         } else {
                             alert(data.error)

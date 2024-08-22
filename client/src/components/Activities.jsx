@@ -3,6 +3,7 @@ import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+//0@gmail.com
 
 export default function Places(){
     const [cale, setCale] =useState('')
@@ -10,6 +11,7 @@ export default function Places(){
     const [alone, setAlone]= useState(false)
     return(
         <Form>
+            <img src='https://media.cntraveler.com/photos/64879b50add73e0d14b17f9e/16:9/w_2580,c_limit/Most-Adventurous-things-to-do-in-your-lifetime-(update)_timur-garifov-sisZWCDkmwA-unsplash.jpg'/>
         <div>
         <h1>Lets get your schedule ready for your trip!!</h1>
         <Form.Label>How much of an adventure are you?</Form.Label>

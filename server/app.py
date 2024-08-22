@@ -289,7 +289,7 @@ class Login(Resource):
         email = request.get_json()['email']
         user = User.query.filter(User.email == email).first()
         password = request.get_json()['password']
-        if user.authenticate(password) and user:
+        if user and user.authenticate(password):
             session['user_id'] = user.id
             return user.to_dict(), 200
         return make_response({'error':'Invalid username or password'}, 401)

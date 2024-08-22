@@ -6,14 +6,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from "react-router-dom";
-
 
 //the sets go, style shirt, pant, accessorie, is_summer, pants, shirt, and other clothes
-
- export default function Allquestions({user, navigate}) {
-    const [allquest, setallquest]= useState([]);
-
+ export default function Allquestions(){
+    const [allquest, setAllquest]= useState([]);
     const [sts, setSts] =useState(false);
     const [stp, setStp] = useState(false);
     const [sta, setSta] =useState(false);
@@ -21,7 +17,6 @@ import { useNavigate } from "react-router-dom";
     const [pan, setPan] =useState("");
     const [ts, setTs] =useState("");
     const [oc, setOc] =useState("");
-
 
     function handleSubmit(e) {
       e.preventDefault();
@@ -50,14 +45,14 @@ import { useNavigate } from "react-router-dom";
           {/* <body style="background-color:powderblue;"/> */}
                 <Form onSubmit={()=>handleSubmit()}>
                   
-
-        <h1 class='display-1'>Lets get started by packing your luggage!</h1>
-        <Form.Label>Shirt options</Form.Label>
-        <Form.Check type="switch" id="style_shirts" label="Long sleeve or short sleeve?" value={sts} onChange={(e)=>setSts(e.target.value)}/>
-        <Form.Label>Pant options</Form.Label>
-          <Form.Check type="switch" id="style_pants" label="Pants or shorts?" value={stp} onChange={(e)=>setStp(e.target.value)}/>
+        <h1 class='display-1' id='packing'>Lets get started by packing your luggage!</h1>
+      
     <Form.Check type="switch" id="style_accessories" label="Are you an accessories person?" value={sta} onChange={(e)=>setSta(e.target.value)}/>
       <Form.Check type="switch" id="is_Summer" label="Is it summer?"value={mer} onChange={(e)=>setMer(e.target.value)}/>
+        <Form.Label>Shirt options</Form.Label>
+        <Form.Check type="switch" id="style_shirts" label="Short sleeve or Long sleeve?" value={sts} onChange={(e)=>setSts(e.target.value)}/>
+        <Form.Label>Pant options</Form.Label>
+          <Form.Check type="switch" id="style_pants" label="Pants or shorts?" value={stp} onChange={(e)=>setStp(e.target.value)}/>
       <span class= 'input-one-number' id='pants'>How many pants do you want to pack?</span>
       <input type='integer' className='form-control'value={pan} onChange={(e)=>setPan(e.target.value)}/>
       <span class= 'input-one-number' id='shirts'>How many shirts do you want to pack?</span>
