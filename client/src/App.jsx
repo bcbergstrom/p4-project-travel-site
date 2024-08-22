@@ -46,7 +46,12 @@ function App() {
       element: <Register/>,
     },
     {
+      path: "/trip",
+      element: <Trip/>
+    },
+    {
       path: "/questions",
+
       element: <Allquestions user={user} />,
       loader: () => {
        return user ? true: redirect("/")
@@ -55,8 +60,7 @@ function App() {
   ])
   return (
     <div>
-      {/* <ShowLuggage/>
-     <Allquestions/> */}
+
     <RouterProvider router={router}/>
     </div>
   )

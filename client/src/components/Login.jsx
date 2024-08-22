@@ -33,8 +33,10 @@ function Login({email, setEmail, password, setPassword, user, setUser}) {
                     .then(data => {
                         if (data.error == null) {
                             alert("Login Successful")
+
                             setUser(data)
                             nav('/questions')
+
                         } else {
                             alert(data.error)
                         }

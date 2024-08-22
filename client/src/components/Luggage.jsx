@@ -6,7 +6,31 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-export default function Showluggage(){
+export default function Showluggage({allquest, setAllquest}){
+
+  function handleEdit(){
+    fetch(`api/`,{
+      method:"PATCH",
+      headers:{
+        "Content-Type": "Application/json"
+      },
+      body: JSON.stringify({
+        pants:Pants,
+        shirts:Shirts,
+        other_clothes:Other_Clothes
+      })
+    })
+    .then(r=>r.json())
+    .then(updatedLug=>{
+      const newArr = projects.map(project => {
+        if(project.id === updatedProject.id){
+          return updatedProject
+        }
+        return project
+      })
+      setProjects(newArr)
+    })
+  }
 return(
     <div>
     <h1>This is your packed Luggage!</h1>
@@ -15,17 +39,11 @@ return(
 
     <Stack direction="horizontal" gap={3}>
       <Form.Control className="me-auto" placeholder="Adding more..." />
-      <InputGroup className="mb-3">
-        <DropdownButton
-          variant="outline-secondary"
-          title="Dropdown"
-          id="input-group-dropdown-1"
-        >
-              <Dropdown.Item href="#">Pants</Dropdown.Item>
-          <Dropdown.Item href="#">Shirts</Dropdown.Item>
-          <Dropdown.Item href="#">Accessories</Dropdown.Item>
-        </DropdownButton>
-      </InputGroup>
+      <select name='adv' id='adv-scale'>
+        <option value="pants">Pants</option>
+        <option value="shirts">Shirts</option>
+        <option value="other-clothes">Other Clothes</option>
+        </select>
       <Button variant="secondary">Submit</Button>
       <Button variant="outline-danger">Reset</Button>
     </Stack>
@@ -33,7 +51,6 @@ return(
         <li>Pants-{}</li>
         <li>Shirts-{}</li>
         <li>Other Clothes-{}</li>
-        <li>Accessories-{}</li>
     </ul>
     </div>
 )
